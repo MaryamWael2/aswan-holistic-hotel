@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aswan Holistic Hotel — A Sanctuary on the Nile</title>
+  <meta name="description" content="Aswan Holistic Hotel: a peaceful, premium boutique retreat on the banks of the Nile." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/hero.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       CINEMATIC SCROLL HERO
+       Three stacked layers (quote / building / water) animated purely
+       via CSS custom properties that hero-scroll.js updates on scroll.
+       See assets/js/hero-scroll.js for the stage timing logic.
+  ============================================================= -->
+  <section class="hero" id="hero" aria-label="Welcome to Aswan Holistic Hotel">
+    <!-- Tall spacer that creates the scroll distance the animation plays over.
+         Its height controls how much scrolling the whole sequence takes. -->
+    <div class="hero__scroll-track" id="heroScrollTrack">
+
+      <!-- Sticks to the viewport while the track above scrolls past. -->
+      <div class="hero__stage" id="heroStage">
+
+        <!-- Layer 1: the opening quote -->
+        <div class="hero__layer hero__quote" id="heroQuote">
+          <p class="hero__eyebrow">Aswan Holistic Hotel</p>
+          <blockquote class="hero__quote-text">
+            “Enter with a calm heart,<br class="hero__quote-break" />
+            and leave with a renewed soul.”
+          </blockquote>
+          <span class="hero__scroll-hint" aria-hidden="true">
+            <span class="hero__scroll-hint-line"></span>
+            Scroll
+          </span>
+        </div>
+
+        <!-- Layer 2: the 3D hotel building render -->
+        <div class="hero__layer hero__building" id="heroBuilding" aria-hidden="true">
+          <div class="hero__building-frame">
+            <!--
+              PLACEHOLDER ASSET:
+              Replace assets/images/hero-hotel-building.png with the exported
+              3D render of the hotel building (transparent background PNG/WebP
+              recommended). Until that file exists, a clearly-marked
+              placeholder is shown instead (see .hero__building-placeholder
+              and the onerror handler in assets/js/main.js).
+            -->
+            <img
+              class="hero__building-image"
+              id="heroBuildingImage"
+              src="assets/images/hero-hotel-building.png"
+              alt="A three-story Egyptian-inspired hotel building rendered in warm sandstone tones, with Nile-blue window glass and gold hieroglyph-style wall details."
+            />
+            <div class="hero__building-placeholder" id="heroBuildingPlaceholder">
+              <svg class="hero__building-placeholder-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 21V9.5L12 4l8 5.5V21M4 21h16M9 21v-6h6v6"
+                />
+              </svg>
+              <p>Add the 3D hotel building render here:</p>
+              <code>assets/images/hero-hotel-building.png</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layer 3: the Nile water reveal -->
+        <div class="hero__layer hero__water" id="heroWater" aria-hidden="true">
+          <svg class="hero__water-svg hero__water-svg--back" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path d="M0,160 C240,220 480,100 720,140 C960,180 1200,240 1440,180 L1440,320 L0,320 Z" />
+          </svg>
+          <svg class="hero__water-svg hero__water-svg--front" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path d="M0,220 C300,160 600,260 900,200 C1140,155 1300,220 1440,200 L1440,320 L0,320 Z" />
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       REST OF THE HOMEPAGE
+       Placeholder sections so the hero's exit transition has somewhere
+       to land. Replace with the real homepage content sections.
+  ============================================================= -->
+  <main>
+    <section class="intro-section">
+      <div class="intro-section__inner">
+        <p class="intro-section__eyebrow">Welcome</p>
+        <h2 class="intro-section__title">A Holistic Retreat on the Nile</h2>
+        <p class="intro-section__body">
+          Placeholder homepage content continues here — rooms, wellness, dining,
+          and experiences sections follow the hero in the normal document flow.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/hero-scroll.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+/* ==========================================================
+   Aswan Holistic Hotel — Cinematic scroll hero
+   ==========================================================
+   Structure:
+     .hero__scroll-track  → tall spacer, defines how much scroll
+                             distance the whole sequence plays over
+       .hero__stage        → sticks to the viewport (100vh) while
+                              the track scrolls underneath it
+         .hero__quote       → Layer 1: opening quote
+         .hero__building    → Layer 2: 3D hotel render
+         .hero__water       → Layer 3: Nile water reveal
+
+   All motion is expressed as CSS custom properties (--quote-*,
+   --building-*, --water-*) that assets/js/hero-scroll.js updates
+   on every scroll frame. CSS itself has no transitions on these
+   properties — the scroll position IS the animation timeline.
+   ========================================================== */
+
+.hero {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    var(--color-ivory) 0%,
+    var(--color-sand) 100%
+  );
+}
+
+/* Height of this element = total scroll distance for the sequence.
+   Tune via the --hero-track-height custom property (see media queries
+   below for the simplified mobile value). */
+.hero__scroll-track {
+  --hero-track-height: 340vh;
+  height: var(--hero-track-height);
+  position: relative;
+}
+
+.hero__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+}
+
+/* ----------------------------------------------------------
+   Layer 1 — Quote
+   ---------------------------------------------------------- */
+
+.hero__quote {
+  flex-direction: column;
+  text-align: center;
+  padding: 0 var(--space-md);
+  opacity: var(--quote-opacity, 1);
+  transform: translateY(var(--quote-y, 0px));
+}
+
+.hero__eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-terracotta-deep);
+  margin: 0 0 var(--space-md);
+}
+
+.hero__quote-text {
+  margin: 0;
+  max-width: 42rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4.4vw, 3.25rem);
+  line-height: 1.4;
+  color: var(--color-nile-blue-deep);
+}
+
+.hero__quote-break {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .hero__quote-break {
+    display: inline;
+  }
+}
+
+.hero__scroll-hint {
+  margin-top: var(--space-lg);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  opacity: 0.55;
+}
+
+.hero__scroll-hint-line {
+  width: 1px;
+  height: 2.25rem;
+  background: currentColor;
+  animation: hero-scroll-hint-pulse 2.4s var(--ease-luxury) infinite;
+}
+
+@keyframes hero-scroll-hint-pulse {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.7); transform-origin: top; }
+  50% { opacity: 0.9; transform: scaleY(1); transform-origin: top; }
+}
+
+/* ----------------------------------------------------------
+   Layer 2 — Hotel building
+   ---------------------------------------------------------- */
+
+.hero__building {
+  opacity: var(--building-opacity, 0);
+  transform:
+    translateY(var(--building-y, 48px))
+    scale(var(--building-scale, 0.92));
+  padding: 0 var(--space-md);
+}
+
+.hero__building-frame {
+  position: relative;
+  width: min(100%, 62rem);
+}
+
+.hero__building-image {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2rem 3rem rgba(31, 79, 95, 0.25));
+}
+
+/* Shown automatically (via JS onerror) until the real render is added */
+.hero__building-placeholder {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-lg) var(--space-md);
+  border: 1px dashed var(--color-sand-deep);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  font-family: var(--font-sans);
+  color: var(--color-nile-blue-deep);
+}
+
+.hero__building-placeholder-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-terracotta);
+}
+
+.hero__building-placeholder p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.hero__building-placeholder code {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(31, 79, 95, 0.08);
+  border-radius: 0.25rem;
+}
+
+.hero__building-frame.has-error .hero__building-image {
+  display: none;
+}
+
+.hero__building-frame.has-error .hero__building-placeholder {
+  display: flex;
+}
+
+/* ----------------------------------------------------------
+   Layer 3 — Nile water reveal
+   ---------------------------------------------------------- */
+
+.hero__water {
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hero__water-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 46vh;
+}
+
+.hero__water-svg path {
+  fill: var(--color-nile-blue);
+}
+
+.hero__water-svg--back {
+  opacity: 0.55;
+  transform: translateY(var(--water-y-back, 100%));
+}
+
+.hero__water-svg--back path {
+  fill: var(--color-nile-blue-deep);
+}
+
+.hero__water-svg--front {
+  opacity: 0.92;
+  transform: translateY(var(--water-y-front, 100%));
+}
+
+/* ----------------------------------------------------------
+   Responsive — simplify on tablet / mobile
+   ---------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .hero__scroll-track {
+    --hero-track-height: 260vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__scroll-track {
+    --hero-track-height: 200vh;
+  }
+
+  .hero__water-svg {
+    height: 36vh;
+  }
+
+  /* Skip the subtle back/front parallax offset on small screens —
+     both wave layers move together for a lighter, smoother feel. */
+  .hero__water-svg--back {
+    transform: translateY(var(--water-y-front, 100%));
+  }
+}
+
+/* ----------------------------------------------------------
+   Reduced motion — static, accessible fallback
+   Applied via the .hero--static class, set in JS when
+   prefers-reduced-motion: reduce is detected. No scroll-jacking,
+   no pinning, everything is simply visible in normal document flow.
+   ---------------------------------------------------------- */
+
+.hero--static .hero__scroll-track {
+  height: auto;
+}
+
+.hero--static .hero__stage {
+  position: static;
+  height: auto;
+  flex-direction: column;
+  padding: var(--space-xl) 0;
+  gap: var(--space-xl);
+}
+
+.hero--static .hero__layer {
+  position: static;
+  opacity: 1;
+  transform: none;
+}
+
+.hero--static .hero__scroll-hint {
+  display: none;
+}
+
+.hero--static .hero__water {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 28vh;
+}
+
+.hero--static .hero__water-svg {
+  /* Keep the two waves overlapping (as in the animated version) rather
+     than letting flex lay them out side by side. */
+  position: absolute;
+}
+
+.hero--static .hero__water-svg--back,
+.hero--static .hero__water-svg--front {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-hint-line {
+    animation: none;
+  }
+}

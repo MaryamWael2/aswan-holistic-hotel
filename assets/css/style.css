@@ -1,0 +1,93 @@
+/* ==========================================================
+   Aswan Holistic Hotel — Base styles, tokens, reset
+   ========================================================== */
+
+:root {
+  /* Palette — warm, soulful, Aswan-inspired */
+  --color-ivory: #faf6ee;
+  --color-sand: #e7d3b1;
+  --color-sand-deep: #cba876;
+  --color-terracotta: #c1683f;
+  --color-terracotta-deep: #9c4e2c;
+  --color-nile-blue: #1f4f5f;
+  --color-nile-blue-deep: #12333f;
+  --color-palm-green: #6f8a6a;
+  --color-gold: #b9955a;
+  --color-ink: #2c2420;
+
+  /* Typography */
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Rhythm */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ==========================================================
+   Placeholder homepage content (below the hero)
+   ========================================================== */
+
+.intro-section {
+  padding: var(--space-xl) var(--space-md);
+  background: var(--color-ivory);
+  text-align: center;
+}
+
+.intro-section__inner {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.intro-section__eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-terracotta-deep);
+  margin: 0 0 var(--space-sm);
+}
+
+.intro-section__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  color: var(--color-nile-blue-deep);
+  margin: 0 0 var(--space-sm);
+}
+
+.intro-section__body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+  opacity: 0.8;
+}
