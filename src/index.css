@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  /* Guards against horizontal overflow (e.g. from hero parallax offsets)
+     without breaking `position: sticky` in the hero — unlike overflow-x
+     on a descendant wrapper, this is safe because html IS the viewport's
+     own scrolling context. */
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #f7f1e8;
+  color: #241a13;
+  font-family: "Manrope", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Respect prefers-reduced-motion globally as a baseline; individual
+   Framer Motion animations additionally check useReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
