@@ -2,13 +2,15 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface CTAButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: "gold" | "ivory";
+  variant?: "gold" | "ivory" | "outline-dark";
 }
 
 /**
- * Primary call-to-action button used in the navbar and booking section.
+ * Primary call-to-action button used across the site.
  * "gold" is a filled brushed-gold button; "ivory" is a soft outline
- * variant for use over darker/photographic backgrounds.
+ * variant for use over darker/photographic backgrounds; "outline-dark"
+ * is the same idea for use over pale/light backgrounds (e.g. the hero's
+ * sky-and-sand scene).
  */
 export default function CTAButton({ children, variant = "gold", className = "", ...rest }: CTAButtonProps) {
   const base =
@@ -17,7 +19,9 @@ export default function CTAButton({ children, variant = "gold", className = "", 
   const variantClass =
     variant === "gold"
       ? "bg-gold text-brown hover:bg-terracotta hover:text-ivory"
-      : "border border-ivory/70 text-ivory hover:bg-ivory hover:text-nile-deep";
+      : variant === "ivory"
+        ? "border border-ivory/70 text-ivory hover:bg-ivory hover:text-nile-deep"
+        : "border border-nile-deep/40 text-nile-deep hover:bg-nile-deep hover:text-ivory hover:border-nile-deep";
 
   return (
     <button className={`${base} ${variantClass} ${className}`} {...rest}>
