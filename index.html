@@ -48,6 +48,10 @@
         <!-- Layer 2: the 3D hotel building render -->
         <div class="hero__layer hero__building" id="heroBuilding" aria-hidden="true">
           <div class="hero__building-frame">
+            <!-- Soft warm haze the building emerges through and out of,
+                 layered behind + in front of the render for depth. -->
+            <div class="hero__haze hero__haze--back" aria-hidden="true"></div>
+
             <!--
               PLACEHOLDER ASSET:
               Replace assets/images/hero-hotel-building.png with the exported
@@ -76,6 +80,8 @@
               <p>Add the 3D hotel building render here:</p>
               <code>assets/images/hero-hotel-building.png</code>
             </div>
+
+            <div class="hero__haze hero__haze--front" aria-hidden="true"></div>
           </div>
         </div>
 
