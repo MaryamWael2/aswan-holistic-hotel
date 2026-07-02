@@ -12,6 +12,8 @@ export default {
         palm: "#6F8A5B",
         gold: "#C9A45C",
         brown: "#241A13",
+        sky: "#D3E6EC",
+        "sky-deep": "#A9CBD6",
       },
       fontFamily: {
         serif: ['"Cormorant Garamond"', "Georgia", "serif"],
