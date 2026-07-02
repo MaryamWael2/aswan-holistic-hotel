@@ -6,9 +6,10 @@
                              distance the whole sequence plays over
        .hero__stage        → sticks to the viewport (100vh) while
                               the track scrolls underneath it
+         .hero__sky         → Layer 0: background clouds + distant palms
          .hero__quote       → Layer 1: opening quote
          .hero__building    → Layer 2: 3D hotel render
-         .hero__water       → Layer 3: Nile water reveal
+         .hero__water       → Layer 3: Nile water reveal (+ foreground boats)
 
    All motion is expressed as CSS custom properties (--quote-*,
    --building-*, --water-*) that assets/js/hero-scroll.js updates
@@ -51,6 +52,99 @@
   align-items: center;
   justify-content: center;
   will-change: transform, opacity;
+}
+
+/* ----------------------------------------------------------
+   Layer 0 — Sky: drifting clouds + distant palm silhouettes.
+   Sits behind everything, moves the least on scroll (a slower
+   parallax rate than the building) for background depth.
+   ---------------------------------------------------------- */
+
+.hero__sky {
+  opacity: var(--sky-opacity, 0);
+  transform: translateX(var(--sky-drift, 0px));
+}
+
+.hero__clouds {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero__cloud {
+  position: absolute;
+  top: 8%;
+  width: 28rem;
+  height: 9rem;
+  border-radius: 999px;
+  filter: blur(30px);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(250, 246, 238, 0.85),
+    rgba(231, 211, 177, 0.4) 60%,
+    transparent 80%
+  );
+  animation: hero-cloud-drift linear infinite;
+}
+
+.hero__cloud--1 {
+  left: -15%;
+  top: 6%;
+  width: 30rem;
+  height: 10rem;
+  animation-duration: 70s;
+}
+
+.hero__cloud--2 {
+  left: 35%;
+  top: 15%;
+  width: 22rem;
+  height: 8rem;
+  opacity: 0.8;
+  animation-duration: 95s;
+  animation-delay: -20s;
+}
+
+.hero__cloud--3 {
+  left: 65%;
+  top: 3%;
+  width: 26rem;
+  height: 9rem;
+  opacity: 0.7;
+  animation-duration: 80s;
+  animation-delay: -45s;
+}
+
+@keyframes hero-cloud-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Travels fully off-screen before looping, so the reset is invisible. */
+    transform: translateX(130vw);
+  }
+}
+
+.hero__palm {
+  position: absolute;
+  bottom: 0;
+  height: 58%;
+  width: auto;
+  filter: blur(1.5px);
+}
+
+.hero__palm--left {
+  left: -2%;
+}
+
+.hero__palm--right {
+  right: -2%;
+  transform: scaleX(-1);
+}
+
+.hero__palm path {
+  fill: var(--color-terracotta-deep);
+  opacity: 0.32;
 }
 
 /* ----------------------------------------------------------
@@ -255,6 +349,52 @@
   transform: translateY(var(--water-y-front, 100%));
 }
 
+/* Foreground — felucca sailboats drifting across the water. Parallax at
+   a faster rate than the waves themselves (--boat*-drift, set in JS),
+   which reads as "closer to camera" than the water it floats on. */
+.hero__boats {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero__boat {
+  position: absolute;
+  width: 4.5rem;
+  height: auto;
+  fill: var(--color-nile-blue-deep);
+  stroke: var(--color-nile-blue-deep);
+  stroke-width: 1;
+  opacity: var(--boats-opacity, 0);
+  animation: hero-boat-bob 4.5s ease-in-out infinite;
+}
+
+.hero__boat--1 {
+  bottom: 20%;
+  left: 14%;
+  transform: translateX(var(--boat1-drift, 0px));
+}
+
+.hero__boat--2 {
+  bottom: 11%;
+  left: 64%;
+  width: 3rem;
+  opacity: calc(var(--boats-opacity, 0) * 0.85);
+  transform: translateX(var(--boat2-drift, 0px)) scaleX(-1);
+  animation-duration: 5.5s;
+  animation-delay: -2s;
+}
+
+@keyframes hero-boat-bob {
+  0%,
+  100% {
+    margin-top: 0;
+  }
+  50% {
+    margin-top: -4px;
+  }
+}
+
 /* ----------------------------------------------------------
    Responsive — simplify on tablet / mobile
    ---------------------------------------------------------- */
@@ -289,6 +429,18 @@
      both wave layers move together for a lighter, smoother feel. */
   .hero__water-svg--back {
     transform: translateY(var(--water-y-front, 100%));
+  }
+
+  /* Lighten the sky/water dressing — fewer blurred layers, one boat
+     instead of two, distant palms hidden — to keep scroll smooth. */
+  .hero__cloud--3,
+  .hero__palm,
+  .hero__boat--2 {
+    display: none;
+  }
+
+  .hero__cloud {
+    filter: blur(18px);
   }
 }
 
@@ -325,6 +477,11 @@
   display: none;
 }
 
+.hero--static .hero__sky,
+.hero--static .hero__boats {
+  display: none;
+}
+
 .hero--static .hero__water {
   position: relative;
   display: block;
@@ -344,7 +501,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__scroll-hint-line {
+  .hero__scroll-hint-line,
+  .hero__cloud,
+  .hero__boat {
     animation: none;
   }
 }

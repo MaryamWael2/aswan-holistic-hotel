@@ -39,6 +39,8 @@ window.AswanHeroScroll = (function () {
 
     waterStart: 0.58, // Nile water begins rising from the bottom
     waterEnd: 0.88, // water has fully risen; sequence settles into place
+
+    boatsFadeEnd: 0.7, // boats have fully appeared this far into the water rise
   };
 
   function clamp(value, min, max) {
@@ -72,6 +74,12 @@ window.AswanHeroScroll = (function () {
     function render() {
       ticking = false;
       const progress = computeProgress();
+
+      // --- Layer 0: background sky (clouds + distant palms) fades in as
+      //     an ambient backdrop and drifts the least of any layer — the
+      //     slow parallax rate reads as "furthest from camera". ---
+      const skyOpacity = mapRange(progress, 0, STAGES.buildingFadeEnd, 0.12, 0.55);
+      const skyDrift = mapRange(progress, 0, 1, 0, -60);
 
       // --- Layer 1: quote fades up and out early in the scroll ---
       const quoteOpacity = 1 - mapRange(progress, 0, STAGES.quoteFadeEnd, 0, 1);
@@ -151,6 +159,20 @@ window.AswanHeroScroll = (function () {
 
       stage.style.setProperty("--water-y-front", `${((1 - waterFrontProgress) * 100).toFixed(1)}%`);
       stage.style.setProperty("--water-y-back", `${((1 - waterBackProgress) * 100).toFixed(1)}%`);
+
+      // --- Foreground: boats fade in as the water arrives, then drift
+      //     across it faster than the waves — a foreground parallax rate,
+      //     reading as "closer to camera" than the water they float on. ---
+      const boatsOpacity = mapRange(progress, STAGES.waterStart, STAGES.boatsFadeEnd, 0, 1);
+      const boat1Drift = mapRange(progress, STAGES.waterStart, 1, 0, -90);
+      const boat2Drift = mapRange(progress, STAGES.waterStart, 1, 0, 70);
+
+      stage.style.setProperty("--sky-opacity", skyOpacity.toFixed(3));
+      stage.style.setProperty("--sky-drift", `${skyDrift.toFixed(1)}px`);
+
+      stage.style.setProperty("--boats-opacity", boatsOpacity.toFixed(3));
+      stage.style.setProperty("--boat1-drift", `${boat1Drift.toFixed(1)}px`);
+      stage.style.setProperty("--boat2-drift", `${boat2Drift.toFixed(1)}px`);
     }
 
     function requestRender() {
